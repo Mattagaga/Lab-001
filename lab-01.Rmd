@@ -263,9 +263,23 @@ visitors_with_nations %>%
 
 _Within each of the 4 nations, what is the proportion of tourist attractions that have free admission for all visitors?_
 ```{r Ex_m}
-# Write your code here
-
-
+split_by_nation <- visitors %>%
+  mutate(
+    nation = case_when(
+      region == "Northern Ireland" ~ "Northern Ireland",
+      region == "Scotland" ~ "Scotland",
+      region == "Wales" ~ "Wales",
+      TRUE ~ "England"
+      )
+  )
+proportion_free <- split_by_nation %>%
+  group_by(nation) %>%
+  summarise(
+    number_free = sum(admission == "Free"),
+    total = n(),
+    proportion_free = 100 * number_free / total
+  )
+show(proportion_free)
 ```
 
 
@@ -274,7 +288,7 @@ _Within each of the 4 nations, what is the proportion of tourist attractions tha
 _Calculate the percentage change in visitor admissions from 2021 to 2022. Of the tourist attractions in Scotland, sort into increasing numerical order the types of admission charges based on the mean percentage change in visitor numbers._
 
 ```{r Ex_n}
-# Write your code here
+
 
 
 
