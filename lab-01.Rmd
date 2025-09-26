@@ -166,11 +166,11 @@ visitors %>%
 _Perform the same calculation for the 2021 admissions data._
 
 ```{r Ex_h}
-#visitors %>% 
-#  ______(
-#    __________,
-#    __________
-#  )
+visitors %>% 
+  summarise(
+    mean_2021 = mean(n_2021, na.rm = TRUE),
+    med_2021 = median(n_2021, na.rm = TRUE)
+  )
 ```
 
 All values in the output are `NA`!
@@ -179,7 +179,7 @@ All values in the output are `NA`!
 
 _What does `NA` stand for and why are you getting this as your answer to the previous question._
 
-**Write your answer here**
+_Answer is not available. This is because there are missing values in the data for 2021 (N/A). These are not numeric so can't be used in the mean._
 
 
 
@@ -188,7 +188,7 @@ _What does `NA` stand for and why are you getting this as your answer to the pre
 
 _Look at the help pages for the `mean()` and `median()` commands to see what the input argument `na.rm` does. Edit your code from exercise h so that it computes the summary statistics where data is available._
 
-**Write your answer here**
+_Edited above - when the function is set to true it 'ignores' n/a when calculated averages._
 
 
 
@@ -210,7 +210,7 @@ visitors %>%
 
 _Observe in question 6 that the mean statistics across all settings are much larger than the corresponding median statistics. Discuss in your group what this suggests about the data._
 
-**Write your answer here**
+_If we were to draw a graph, it would not be normally distributed. It would instead be shifted towards the lower values. So the median is lower but a few attractions have significntly higher visitor numbers which pulls the mean up_
 
 
 
@@ -243,18 +243,25 @@ _How many tourist attractions are there in each of the 4 nations? From this, dis
 
 
 ```{r Ex_l}
-#________ %>%
-#  ______(_______)
+attractions_with_nations <- visitors %>%
+  mutate(
+    nation = case_when(
+      region == "Northern Ireland" ~ "Northern Ireland",
+      region == "Scotland" ~ "Scotland",
+      region == "Wales" ~ "Wales",
+      TRUE ~ "England"
+      )
+  )
+visitors_with_nations %>% 
+  group_by(nation) %>%
+  count()
 ```
-
-
 
 # Challenging Exercises
 
 ### Exercise m.
 
 _Within each of the 4 nations, what is the proportion of tourist attractions that have free admission for all visitors?_
-
 ```{r Ex_m}
 # Write your code here
 
